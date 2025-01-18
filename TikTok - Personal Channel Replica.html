@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Clone</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .feed {
+            height: calc(100vh - 50px);
+            position: relative;
+            background: #000;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        /* Video styles */
+        .video-container video {
+            width: auto;
+            height: 100%;
+            max-width: min(450px, 100%);
+            object-fit: contain;
+            z-index: 1;
+        }
+
+        /* Blurred background */
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: var(--video-url);
+            background-size: cover;
+            background-position: center;
+            filter: blur(20px) brightness(0.5);
+            transform: scale(1.1);
+        }
+
+        /* Video info overlay */
+        .video-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 12px;
+            z-index: 2;
+            max-width: 80%;
+        }
+
+        .video-info {
+            max-width: 80%;
+            margin-bottom: 80px;
+        }
+
+        .username {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .music {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .music i {
+            margin-right: 8px;
+        }
+
+        /* Actions sidebar */
+        .actions {
+            position: absolute;
+            right: 12px;
+            bottom: 70px;
+            z-index: 2;
+        }
+
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            gap: 5px;
+        }
+
+        .action-button i {
+            font-size: 28px;
+        }
+
+        .action-button span {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Bottom navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 16px;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            opacity: 0.9;
+            cursor: pointer;
+            width: 20%;
+            height: 100%;
+        }
+
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            margin-top: -2px;
+        }
+
+        .nav-item.active {
+            color: #fff;
+            opacity: 1;
+        }
+
+        /* Center plus button */
+        .nav-item:nth-child(3) {
+            background: transparent;
+            margin: 0 8px;
+        }
+
+        .nav-item:nth-child(3) i {
+            font-size: 28px;
+        }
+
+        .profile-container {
+            background: #000;
+            color: #fff;
+            padding: 16px;
+            height: 100vh;
+            overflow-y: auto;
+            max-width: 100%;
+            margin: 0 auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .profile-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin: 0 auto 20px auto;
+        }
+
+        .profile-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 8px;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #333;
+        }
+
+        .plus-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #28AAF7;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .profile-details h1 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .count {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .label {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .profile-actions button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            background: #1f1f1f;
+            color: white;
+            border: none;
+        }
+
+        .bio {
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .website-link {
+            color: #28AAF7;
+            text-decoration: none;
+        }
+
+        .profile-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .profile-links button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            background: #1f1f1f;
+            color: white;
+            border: none;
+            font-size: 14px;
+        }
+
+        .tab-options {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border-bottom: 1px solid #333;
+            padding: 12px 0;
+            margin-bottom: 1px;
+            max-width: 500px;
+            margin: 0 auto 1px auto;
+            text-align: center;
+        }
+
+        .tab-option {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            padding: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .tab-option i {
+            font-size: 24px;
+        }
+
+        .tab-option.active {
+            color: white;
+        }
+
+        /* Specific icon adjustments */
+        .tab-option:first-child {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .tab-option:nth-child(2) i {
+            font-size: 26px;
+        }
+
+        .tab-option:nth-child(3) i {
+            font-size: 22px;
+        }
+
+        .tab-option:nth-child(4) i {
+            font-size: 22px;
+        }
+
+        .tab-option:nth-child(5) i {
+            font-size: 22px;
+        }
+
+        .tab-option:last-child i {
+            font-size: 22px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: #121212;
+            padding: 1px;
+            width: 100vw;
+            margin-left: calc(-16px);
+            margin-right: calc(-16px);
+        }
+
+        .video-item {
+            position: relative;
+            aspect-ratio: 3/4;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .video-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pinned-label {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #FE2C55;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 12px;
+            z-index: 1;
+        }
+
+        .views {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            color: white;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 1;
+        }
+
+        .views i {
+            font-size: 12px;
+        }
+
+        .upload-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            position: relative;
+            background: #1f1f1f;
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            border-radius: 8px;
+            z-index: 1001;
+        }
+
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .upload-area {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .upload-label {
+            border: 2px dashed #555;
+            padding: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .upload-label:hover {
+            border-color: #FE2C55;
+        }
+
+        .upload-label i {
+            font-size: 48px;
+            color: #888;
+        }
+
+        .upload-preview {
+            padding: 20px;
+        }
+
+        .upload-preview video {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .upload-details {
+            display: flex;
+            gap: 12px;
+        }
+
+        .caption-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #2f2f2f;
+            color: #fff;
+        }
+
+        .post-button {
+            padding: 8px 24px;
+            background: #FE2C55;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .post-button:hover {
+            background: #e62548;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            .video-container video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .video-container::before {
+                display: none;
+            }
+        }
+
+        /* Add this CSS for the play button overlay */
+        .play-button-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .play-button-overlay i {
+            color: white;
+            font-size: 30px;
+            margin-left: 4px; /* Slight offset for play icon */
+        }
+    </style>
+</head>
+<body>
+    <div class="feed" id="feed">
+        <!-- Videos will be dynamically added here -->
+    </div>
+
+    <!-- Add profile container here, before bottom nav -->
+    <div class="profile-container" id="profile-container">
+        <div class="profile-info">
+            <div class="profile-avatar">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FProfile%20Photo%2F7332677624190631942~c5_1080x1080.jpg?alt=media&token=1e3cc85d-7bf6-47a4-a9df-1e22b72353de" alt="Profile Picture">
+                <div class="plus-icon">+</div>
+            </div>
+            <h1>@ll_kaywat_ll</h1>
+            <div class="profile-stats">
+                <div class="stat">
+                    <span class="count">2,938</span>
+                    <span class="label">Following</span>
+                </div>
+                <div class="stat">
+                    <span class="count">118.8K</span>
+                    <span class="label">Followers</span>
+                </div>
+                <div class="stat">
+                    <span class="count">1.4M</span>
+                    <span class="label">Likes</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="edit-profile">Edit profile</button>
+                <button class="share-profile">Share profile</button>
+                <button class="more-options">👤</button>
+            </div>
+            <div class="bio">
+                <p>🎧 | ❤️ | Content Creator | Code: KayWat |</p>
+                <p>#Kick | biz 📧: info@kaywat.me | ✅</p>
+                <a href="#" class="website-link">www.kaywat.me</a>
+            </div>
+            <div class="profile-links">
+                <button>TikTok Studio</button>
+                <button>Your orders</button>
+                <button>Instagram</button>
+            </div>
+        </div>
+
+        <div class="tab-options">
+            <button class="tab-option active">|||</button>
+            <button class="tab-option">
+                <i class="far fa-grin"></i>
+            </button>
+            <button class="tab-option">
+                <i class="fas fa-lock"></i>
+            </button>
+            <button class="tab-option">
+                <i class="fas fa-retweet"></i>
+            </button>
+            <button class="tab-option">
+                <i class="far fa-file-alt"></i>
+            </button>
+            <button class="tab-option">
+                <i class="fas fa-heart"></i>
+            </button>
+        </div>
+
+        <div class="video-grid" id="profile-videos">
+            <!-- Row 1 -->
+            <div class="video-item">
+                <span class="pinned-label">Pinned</span>
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%201.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>912.8K</span>
+                </div>
+            </div>
+            <div class="video-item">
+                <span class="pinned-label">Pinned</span>
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%202.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>1.3M</span>
+                </div>
+            </div>
+            <div class="video-item">
+                <span class="pinned-label">Pinned</span>
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%203.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>168.7K</span>
+                </div>
+            </div>
+            <!-- Row 2 -->
+            <div class="video-item">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%204.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>245.6K</span>
+                </div>
+            </div>
+            <div class="video-item">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%205.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>892.1K</span>
+                </div>
+            </div>
+            <div class="video-item">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%206.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>567.3K</span>
+                </div>
+            </div>
+            <!-- Row 3 -->
+            <div class="video-item">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%207.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>423.9K</span>
+                </div>
+            </div>
+            <div class="video-item">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%208.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>756.2K</span>
+                </div>
+            </div>
+            <div class="video-item">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FVideos%2FVideo%209.jpg?alt=media&token=YOUR_TOKEN" alt="Video thumbnail">
+                <div class="views">
+                    <i class="fas fa-play"></i>
+                    <span>634.5K</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <i class="fas fa-home"></i>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-compass"></i>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-plus-square"></i>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-inbox"></i>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
+
+    <script>
+        // Update the video data with both videos
+        const videos = [
+            {
+                url: 'https://firebasestorage.googleapis.com/v0/b/kaywat-b4236.firebasestorage.app/o/TikTok%20-%20Backup%2FProfile%20-%20Tab%2FPinned%20Videos%2FDownload.mp4?alt=media&token=78230862-e5bf-463c-a8ea-a2edc031ca3f',
+                username: '✔️itsKayWat 💔',
+                description: 'Check out this cool video! #trending',
+                music: '♫ Original Sound - User1',
+                likes: '99.1K',
+                comments: '234',
+                saves: '1,248',
+                shares: '495'
+            },
+            {
+                url: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+                username: '✔️itsKayWat 💔',
+                description: 'Nature is beautiful 🌸 #nature #peaceful',
+                music: '♫ Peaceful Sounds - Nature',
+                likes: '892K',
+                comments: '2,948',
+                shares: '754'
+            }
+        ];
+
+        function createVideoElement(video) {
+            const container = document.createElement('div');
+            container.className = 'video-container';
+            
+            // Add play button overlay
+            const playButton = document.createElement('div');
+            playButton.className = 'play-button-overlay';
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            
+            container.innerHTML = `
+                <video loop playsinline>
+                    <source src="${video.url}" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="video-info">
+                        <div class="username">${video.username}</div>
+                        <div class="description">${video.description}</div>
+                        <div class="music">
+                            <i class="fas fa-music"></i>
+                            <span>${video.music}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="action-button">
+                        <i class="fas fa-heart"></i>
+                        <span>${video.likes}</span>
+                    </div>
+                    <div class="action-button">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>${video.comments}</span>
+                    </div>
+                    <div class="action-button">
+                        <i class="fas fa-bookmark"></i>
+                        <span>${video.saves}</span>
+                    </div>
+                    <div class="action-button">
+                        <i class="fas fa-share"></i>
+                        <span>${video.shares}</span>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(playButton);
+            
+            const videoElement = container.querySelector('video');
+            
+            // Add click handler for play/pause
+            container.addEventListener('click', (e) => {
+                if (e.target.closest('.actions') || e.target.closest('.video-overlay')) {
+                    return;
+                }
+                
+                if (videoElement.paused) {
+                    videoElement.play();
+                    playButton.style.display = 'none';
+                } else {
+                    videoElement.pause();
+                    playButton.style.display = 'flex';
+                }
+            });
+            
+            // Show play button when video is paused
+            videoElement.addEventListener('pause', () => {
+                playButton.style.display = 'flex';
+            });
+            
+            // Hide play button when video starts playing
+            videoElement.addEventListener('play', () => {
+                playButton.style.display = 'none';
+            });
+            
+            // Add video ended event listener for auto-scroll
+            videoElement.addEventListener('ended', () => {
+                // Find next video container
+                const nextContainer = container.nextElementSibling;
+                if (nextContainer) {
+                    nextContainer.scrollIntoView({ behavior: 'smooth' });
+                    const nextVideo = nextContainer.querySelector('video');
+                    if (nextVideo) nextVideo.play();
+                }
+            });
+
+            return container;
+        }
+
+        // Initialize feed with auto-play for first video
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('feed');
+            videos.forEach(video => {
+                feed.appendChild(createVideoElement(video));
+            });
+
+            // Auto-play first video
+            const firstVideo = document.querySelector('.video-container video');
+            if (firstVideo) {
+                // Play on user interaction (required by most browsers)
+                document.addEventListener('click', () => {
+                    firstVideo.play();
+                }, { once: true });
+            }
+
+            // Intersection Observer for video visibility
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('video');
+                    if (entry.isIntersecting) {
+                        video.play();
+                    } else {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            // Observe all video containers
+            document.querySelectorAll('.video-container').forEach(container => {
+                observer.observe(container);
+            });
+        });
+
+        // Add navigation functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('feed');
+            const profileContainer = document.getElementById('profile-container');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all nav items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    item.classList.add('active');
+
+                    // Show/hide appropriate content
+                    if (index === 4) { // Profile icon (last item)
+                        feed.style.display = 'none';
+                        profileContainer.style.display = 'block';
+                    } else {
+                        feed.style.display = 'block';
+                        profileContainer.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Add this to your existing JavaScript
+        function loadProfileVideos() {
+            const videoGrid = document.getElementById('profile-videos');
+            
+            // Example video data - replace with your actual video data
+            const videos = [
+                {
+                    thumbnail: 'video1-thumbnail.jpg',
+                    views: '1.2M',
+                    description: 'Video description here'
+                },
+                // Add more videos as needed
+            ];
+
+            videos.forEach(video => {
+                const videoElement = createVideoThumbnail(video);
+                videoGrid.appendChild(videoElement);
+            });
+        }
+
+        function createVideoThumbnail(video) {
+            const div = document.createElement('div');
+            div.className = 'video-thumbnail';
+            div.innerHTML = `
+                <div class="thumbnail-container">
+                    <img src="${video.thumbnail}" alt="Video thumbnail">
+                    <div class="video-stats">
+                        <span class="views">
+                            <i class="fas fa-play"></i>
+                            ${video.views}
+                        </span>
+                    </div>
+                </div>
+                <p class="video-description">${video.description}</p>
+            `;
+            return div;
+        }
+
+        // Call this function when the profile page loads
+        document.addEventListener('DOMContentLoaded', loadProfileVideos);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadModal = document.getElementById('uploadModal');
+            const modalOverlay = document.querySelector('.modal-overlay');
+            const closeModal = document.querySelector('.close-modal');
+            const uploadInput = document.getElementById('videoUpload');
+            const uploadLabel = document.querySelector('.upload-label');
+            const uploadPreview = document.querySelector('.upload-preview');
+            const videoPreview = document.getElementById('videoPreview');
+            const postButton = document.querySelector('.post-button');
+            
+            // Open modal when + is clicked in bottom nav
+            document.querySelector('.nav-item:nth-child(3)').addEventListener('click', () => {
+                uploadModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Close modal functions
+            const closeUploadModal = () => {
+                uploadModal.style.display = 'none';
+                document.body.style.overflow = '';
+                uploadPreview.style.display = 'none';
+                uploadLabel.style.display = 'block';
+            };
+
+            modalOverlay.addEventListener('click', closeUploadModal);
+            closeModal.addEventListener('click', closeUploadModal);
+
+            // Handle file upload
+            uploadInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const videoUrl = URL.createObjectURL(file);
+                    videoPreview.src = videoUrl;
+                    uploadLabel.style.display = 'none';
+                    uploadPreview.style.display = 'block';
+                }
+            });
+
+            // Handle drag and drop
+            uploadLabel.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadLabel.style.borderColor = '#FE2C55';
+            });
+
+            uploadLabel.addEventListener('dragleave', () => {
+                uploadLabel.style.borderColor = '#555';
+            });
+
+            uploadLabel.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('video/')) {
+                    uploadInput.files = e.dataTransfer.files;
+                    const videoUrl = URL.createObjectURL(file);
+                    videoPreview.src = videoUrl;
+                    uploadLabel.style.display = 'none';
+                    uploadPreview.style.display = 'block';
+                }
+            });
+
+            // Handle post button
+            postButton.addEventListener('click', () => {
+                const caption = document.querySelector('.caption-input').value;
+                const file = uploadInput.files[0];
+                
+                if (file) {
+                    // Here you would typically upload to your backend
+                    // For now, we'll just add it to the profile videos
+                    const videoUrl = URL.createObjectURL(file);
+                    
+                    // Create new video thumbnail
+                    const newVideo = {
+                        thumbnail: videoUrl,
+                        views: '0',
+                        description: caption
+                    };
+
+                    // Add to profile videos
+                    const videoGrid = document.getElementById('profile-videos');
+                    const videoElement = createVideoThumbnail(newVideo);
+                    videoGrid.insertBefore(videoElement, videoGrid.firstChild);
+
+                    // Add to feed videos
+                    videos.unshift({
+                        url: videoUrl,
+                        username: '✔️itsKayWat 💔',
+                        description: caption,
+                        music: '♫ Original Sound',
+                        likes: '0',
+                        comments: '0',
+                        saves: '0',
+                        shares: '0'
+                    });
+
+                    // Close modal
+                    closeUploadModal();
+                }
+            });
+        });
+    </script>
+
+    <!-- Add this modal HTML after your main content but before closing body tag -->
+    <div id="uploadModal" class="upload-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload video</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="upload-area">
+                <input type="file" id="videoUpload" accept="video/*" hidden>
+                <label for="videoUpload" class="upload-label">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to upload</p>
+                    <span>Or drag and drop a video file</span>
+                </label>
+            </div>
+            <div class="upload-preview" style="display: none;">
+                <video id="videoPreview" controls></video>
+                <div class="upload-details">
+                    <input type="text" placeholder="Add a caption..." class="caption-input">
+                    <button class="post-button">Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
