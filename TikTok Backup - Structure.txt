@@ -1,0 +1,13 @@
+tiktok_backup_username_timestamp/
+├── 01_profile/
+│   ├── 01_avatar/
+│   ├── 02_bio/
+│   └── 03_stats/
+├── 02_pinned_videos/
+├── 03_playlists/
+├── 04_videos/
+├── 05_comments/
+├── 06_reposts/
+├── 07_favorites/
+├── 08_liked/
+└── 09_html_snapshot/
