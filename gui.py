@@ -695,38 +695,44 @@ class TikTokBackupGUI:
 
 if __name__ == "__main__":
     # Check license before anything else
-    from src.licensing.license_manager import LicenseManager
-    license_manager = LicenseManager()
-    status = license_manager.check_license_status()
-    
-    if status['status'] == 'unlicensed':
-        # Show activation splash first
-        from src.licensing.activation_splash import ActivationSplash
-        activation_splash = ActivationSplash()
-        activation_splash.run()
-        
-        # Create temporary root for activation wizard
-        temp_root = ctk.CTk()
-        temp_root.withdraw()  # Hide the temporary root
-        
-        # Show activation wizard
-        from src.licensing.activation_wizard import ActivationWizard
-        wizard = ActivationWizard(temp_root)
-        wizard.wait_window()  # Wait for activation window to close
-        
-        # Recheck license status after activation
+    try:
+        from src.licensing.license_manager import LicenseManager
+        license_manager = LicenseManager()
         status = license_manager.check_license_status()
+        
         if status['status'] == 'unlicensed':
-            # If still unlicensed, exit
-            sys.exit()
+            # Show activation splash first
+            from src.licensing.activation_splash import ActivationSplash
+            activation_splash = ActivationSplash()
+            activation_splash.run()
             
-        temp_root.destroy()
-    
-    # Only if licensed/trial, show main splash and start app
-    from src.splash_screen import SplashScreen
-    splash = SplashScreen()
-    splash.run()
-    
-    # Start main application
-    app = TikTokBackupGUI()
-    app.run() 
+            # Create temporary root for activation wizard
+            temp_root = ctk.CTk()
+            temp_root.withdraw()  # Hide the temporary root
+            
+            # Show activation wizard
+            from src.licensing.activation_wizard import ActivationWizard
+            wizard = ActivationWizard(temp_root)
+            wizard.wait_window()  # Wait for activation window to close
+            
+            # Recheck license status after activation
+            status = license_manager.check_license_status()
+            if status['status'] == 'unlicensed':
+                # If still unlicensed, exit
+                sys.exit()
+                
+            temp_root.destroy()
+        
+        # Only if licensed/trial, show main splash and start app
+        from src.splash_screen import SplashScreen
+        splash = SplashScreen()
+        splash.run()
+        
+        # Start main application
+        app = TikTokBackupGUI()
+        app.run()
+        
+    except Exception as e:
+        import tkinter.messagebox as messagebox
+        messagebox.showerror("Error", f"Failed to start application: {str(e)}")
+        sys.exit(1) 
