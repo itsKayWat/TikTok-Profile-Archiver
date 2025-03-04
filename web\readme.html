@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Backup Tool Documentation</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --section-bg: #f5f5f5;
+            --button-color: #0077ee;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #ffffff;
+                --section-bg: #2d2d2d;
+                --button-color: #0077ee;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            color: var(--text-color);
+        }
+
+        pre {
+            background-color: var(--section-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .donation-section {
+            background-color: var(--section-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .coffee-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .coffee-button {
+            background-color: var(--button-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .coffee-button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TikTok Backup Tool</h1>
+        
+        <h2>Overview</h2>
+        <p>The TikTok Backup Tool is a powerful utility that creates comprehensive backups of TikTok profiles. It downloads and organizes profile information, videos, and associated metadata in a structured format.</p>
+
+        <h2>Features</h2>
+        <ul>
+            <li>Profile Information Backup
+                <ul>
+                    <li>Avatar image</li>
+                    <li>Bio text</li>
+                    <li>Statistics (followers, following, likes)</li>
+                </ul>
+            </li>
+            <li>Video Content Backup
+                <ul>
+                    <li>Pinned videos</li>
+                    <li>Regular videos</li>
+                    <li>Video metadata (description, date, sound info)</li>
+                    <li>Comments (when available)</li>
+                </ul>
+            </li>
+            <li>Organized Directory Structure
+                <ul>
+                    <li>Timestamped backup folders</li>
+                    <li>Clear categorization of content</li>
+                    <li>Detailed metadata files</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Requirements</h2>
+        <ul>
+            <li>Python 3.8 or higher</li>
+            <li>Google Chrome browser</li>
+            <li>Internet connection</li>
+            <li>Required Python packages (automatically installed):
+                <ul>
+                    <li>selenium</li>
+                    <li>yt-dlp</li>
+                    <li>requests</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Installation</h2>
+        <ol>
+            <li>Ensure Python 3.8+ is installed on your system</li>
+            <li>Download the tt-backup.py script</li>
+            <li>Run the script - it will automatically install required dependencies</li>
+        </ol>
+
+        <h2>Usage</h2>
+        <pre>python tt-backup.py</pre>
+        <p>When prompted:</p>
+        <ol>
+            <li>Enter TikTok usernames (comma-separated for multiple accounts)</li>
+            <li>Select backup options (reposts, favorites, liked videos)</li>
+            <li>Wait for the backup process to complete</li>
+        </ol>
+
+        <h2>Output Structure</h2>
+        <pre>
+@username_Month Day-Year/
+├── 01_profile/
+│   ├── 01_avatar/
+│   ├── 02_bio/
+│   └── 03_stats/
+├── 02_pinned_videos/
+├── 03_playlists/
+├── 04_videos/
+├── 05_reposts/
+├── 06_favorites/
+├── 07_liked/
+└── 08_html_snapshot/</pre>
+
+        <h2>Common Use Cases</h2>
+        <ul>
+            <li>Content creators backing up their own profiles</li>
+            <li>Archiving TikTok content for preservation</li>
+            <li>Creating local copies of favorite content</li>
+            <li>Tracking profile changes over time</li>
+        </ul>
+
+        <div class="donation-section">
+            <h2>💰 Support the Developer</h2>
+            <p>Hey there! I'm KayWat, the developer behind this tool. 👋</p>
+            <p>If you find this tool helpful, consider buying me a coffee! Your support keeps me fueled and creating! ❤️</p>
+            
+            <div class="coffee-buttons">
+                <a href="https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L&custom=1coffee" class="coffee-button" target="_blank">
+                    ☕️ One Coffee ($6)
+                </a>
+                <a href="https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L&custom=2coffees" class="coffee-button" target="_blank">
+                    ☕️☕️ Two Coffees ($12)
+                </a>
+                <a href="https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L&custom=3coffees" class="coffee-button" target="_blank">
+                    ☕️☕️☕️ Three Coffees ($24)
+                </a>
+            </div>
+            <p>Thanks for your support! It means the world to me! 🙏</p>
+        </div>
+    </div>
+</body>
+</html> 
