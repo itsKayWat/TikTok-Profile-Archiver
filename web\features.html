@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Profile Archiver - Features</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #121212;
+            --secondary-dark: #1f1f1f;
+            --tiktok-red: #FE2C55;
+            --tiktok-red-hover: #e62548;
+            --text-white: #ffffff;
+            --text-gray: #8a8a8a;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--secondary-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            color: var(--tiktok-red);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '♪';
+            position: absolute;
+            font-size: 15rem;
+            color: rgba(254, 44, 85, 0.05);
+            top: -2rem;
+            left: -2rem;
+            transform: rotate(-45deg);
+        }
+
+        .hero::after {
+            content: '♫';
+            position: absolute;
+            font-size: 12rem;
+            color: rgba(254, 44, 85, 0.05);
+            bottom: -2rem;
+            right: -2rem;
+            transform: rotate(45deg);
+        }
+
+        .hero h1 {
+            color: var(--tiktok-red);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-section {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-section h2 {
+            color: var(--tiktok-red);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(254, 44, 85, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--tiktok-red);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-card i {
+            font-size: 1.8rem;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .feature-list {
+            margin: 0.5rem 0 0 1.5rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .feature-list li {
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list li::before {
+            content: '•';
+            color: var(--tiktok-red);
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .btn {
+            background: var(--tiktok-red);
+            color: var(--text-white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--tiktok-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="https://sites.google.com/view/tiktok-backup" class="logo">
+            <i class="fas fa-music"></i>
+            TikTok Profile Archiver
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Comprehensive Features</h1>
+            <p>Discover all the powerful capabilities of TikTok Profile Archiver</p>
+        </div>
+
+        <div class="feature-section">
+            <h2>Content Backup</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3><i class="fas fa-video"></i> Video Archive</h3>
+                    <ul class="feature-list">
+                        <li>Download all profile videos</li>
+                        <li>Preserve original video quality</li>
+                        <li>Include pinned and featured content</li>
+                        <li>Save video descriptions and tags</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-user"></i> Profile Data</h3>
+                    <ul class="feature-list">
+                        <li>Backup profile pictures and bio</li>
+                        <li>Save follower and following counts</li>
+                        <li>Archive profile statistics</li>
+                        <li>Store verification status</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-comments"></i> Engagement Data</h3>
+                    <ul class="feature-list">
+                        <li>Save video comments and replies</li>
+                        <li>Track like and share counts</li>
+                        <li>Store sound information</li>
+                        <li>Preserve hashtags and mentions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <h2>Advanced Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3><i class="fas fa-cog"></i> Automation</h3>
+                    <ul class="feature-list">
+                        <li>Scheduled backups</li>
+                        <li>Batch profile processing</li>
+                        <li>Custom backup intervals</li>
+                        <li>Progress tracking</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-shield-alt"></i> Security</h3>
+                    <ul class="feature-list">
+                        <li>Secure local storage</li>
+                        <li>Data integrity checks</li>
+                        <li>Backup verification</li>
+                        <li>Private content handling</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-folder-tree"></i> Organization</h3>
+                    <ul class="feature-list">
+                        <li>Structured file hierarchy</li>
+                        <li>Metadata preservation</li>
+                        <li>Searchable archives</li>
+                        <li>Custom naming schemes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <a href="https://shoppy.gg/@aquax.services" class="btn">
+                <i class="fas fa-shopping-cart"></i>
+                Get Started Now
+            </a>
+        </div>
+    </div>
+</body>
+</html> 
