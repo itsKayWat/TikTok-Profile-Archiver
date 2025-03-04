@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Profile Archiver</title>
+    <style>
+        :root {
+            --background: #1a1a1a;
+            --text: #ffffff;
+            --section: #2d2d2d;
+            --button: #0077ee;
+            --button-hover: #0055bb;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            color: #d6d6dd;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: rgba(44, 44, 44, 0.95);
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px;
+            box-sizing: border-box;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, #2ea043, #347d39);
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            height: 36px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(45deg, #3ab54d, #3b8b40);
+            transform: translateY(-2px);
+        }
+
+        .github-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            height: 36px;
+        }
+
+        .github-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .github-nav-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .onpoint-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #d6d6dd;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            height: 36px;
+        }
+
+        .onpoint-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tiktok-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, #00f2ea, #ff0050);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            height: 36px;
+        }
+
+        .tiktok-btn:hover {
+            background: linear-gradient(45deg, #00ddd5, #ff1a66);
+            transform: translateY(-2px);
+        }
+
+        .main-wrapper {
+            display: flex;
+            padding-top: 60px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(44, 44, 44, 0.95);
+            padding: 1rem;
+            height: calc(100vh - 60px);
+            position: fixed;
+            left: 0;
+            top: 60px;
+            overflow-y: auto;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin: 0.5rem 0;
+        }
+
+        .sidebar a {
+            color: #d6d6dd;
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar a.active {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            flex: 1;
+            width: calc(100% - 250px);
+        }
+
+        .container {
+            background: rgba(44, 44, 44, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            width: 85%;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        section {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            margin: 0.5rem 0;
+            color: #7ee787;
+        }
+
+        .coffee-section {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(44, 44, 44, 0.95);
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .coffee-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #2ea043, #347d39);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .coffee-button:hover {
+            background: linear-gradient(45deg, #3ab54d, #3b8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 160, 67, 0.3);
+        }
+
+        code {
+            background: rgba(30, 30, 30, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: "Fira Code", "Cascadia Code", monospace;
+            display: block;
+            margin: 15px 0;
+        }
+
+        .tool-section {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .tool-preview {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .primary-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #2ea043, #347d39);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.2em;
+        }
+
+        .primary-button:hover {
+            background: linear-gradient(45deg, #3ab54d, #3b8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 160, 67, 0.3);
+        }
+
+        .tool-description {
+            max-width: 600px;
+            line-height: 1.6;
+            color: #d6d6dd;
+        }
+
+        .other-tools {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .other-tools h4 {
+            color: #d6d6dd;
+            margin-bottom: 15px;
+        }
+
+        .tool-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b2b, #ff8c42);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tool-button:hover {
+            background: linear-gradient(45deg, #ff8c42, #ffa162);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 43, 0.3);
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 20px 0;
+            opacity: 0.7;
+        }
+
+        .sidebar-logo {
+            font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            color: #ff6b2b;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-logo:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 2px 10px rgba(255, 107, 43, 0.3);
+        }
+
+        .sidebar-logo span {
+            background: linear-gradient(to right, 
+                rgb(255, 107, 0) 0%,    /* Orange */
+                rgb(139, 195, 74) 100%  /* Green */
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5em;
+            font-weight: normal;
+        }
+
+        .sidebar-logo .subtitle {
+            display: block;
+            font-size: 0.6em;
+            color: #808080;
+            margin-top: 2px;
+            background: none;
+            -webkit-text-fill-color: #808080;
+        }
+
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(44, 44, 44, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(45deg, #4CAF50, #81C784);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2em;
+            color: #aaaaaa;
+            margin: 15px 0 30px 0;
+        }
+
+        .launch-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #4CAF50, #81C784);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .launch-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .button-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .launch-button:hover .button-icon {
+            transform: translateX(5px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            padding: 25px;
+            background: rgba(44, 44, 44, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(44, 44, 44, 0.6);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #4CAF50;
+            margin: 0 0 10px 0;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .check-icon {
+            color: #4CAF50;
+            font-size: 1.2em;
+        }
+
+        .benefit-content strong {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .benefit-content p {
+            margin: 0;
+            color: #aaaaaa;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-title {
+            text-align: center;
+            color: #ffffff;
+            font-size: 2em;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #4CAF50;
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .benefit-card {
+            background: rgba(44, 44, 44, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            background: rgba(44, 44, 44, 0.6);
+            border-color: rgba(76, 175, 80, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .benefit-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .check-circle {
+            width: 32px;
+            height: 32px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .benefit-header h3 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .benefit-desc {
+            color: #aaaaaa;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-card {
+                padding: 20px;
+            }
+        }
+
+        .onpoint-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .onpoint-title {
+            font-size: 3em;
+            margin: 0;
+            background: linear-gradient(to right, 
+                rgb(255, 107, 0) 0%,    /* Orange */
+                rgb(139, 195, 74) 100%  /* Green */
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .onpoint-subtitle {
+            color: #808080;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        .tools-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .tool-card {
+            background: rgba(44, 44, 44, 0.95);
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            min-height: 120px;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            background: rgba(44, 44, 44, 1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-type {
+            display: inline-block;
+            color: #4CAF50;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .tool-card h3 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 1.3em;
+            line-height: 1.4;
+        }
+
+        .tool-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .tools-container {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-card {
+                min-height: 100px;
+            }
+        }
+
+        .table-of-contents {
+            background: rgba(44, 44, 44, 0.95);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #4a9eff;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            color: #d6d6dd;
+            text-decoration: none;
+            border-bottom: 1px dotted #4a9eff;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .toc-section {
+            margin-left: 20px;
+            border-left: 2px solid #4a9eff;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+
+        .toc-subitem {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #d6d6dd;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        .page-number {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(44, 44, 44, 0.95);
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .page-navigation, .quick-tabs {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-dark);
+            padding: 10px;
+            border: 1px solid #4a9eff;
+            z-index: 2000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .page-navigation {
+            left: 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quick-tabs {
+            right: 0;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .nav-button {
+            padding: 8px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: #d6d6dd;
+            border-bottom: 1px solid #4a9eff;
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1em;
+            min-width: 100px;
+        }
+
+        .nav-button:hover {
+            color: #4a9eff;
+        }
+
+        .nav-button:disabled {
+            color: #666;
+            cursor: not-allowed;
+            border-bottom: 1px solid #666;
+        }
+
+        .quick-tab {
+            padding: 8px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: #d6d6dd;
+            border-bottom: 1px solid #4a9eff;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .quick-tab:hover {
+            color: #4a9eff;
+        }
+
+        /* Main content container */
+        #dev-manual {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(44, 44, 44, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Manual title */
+        #dev-manual h1 {
+            color: #d6d6dd;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+        }
+
+        /* Table of contents container */
+        .table-of-contents {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 20px auto;
+            border: 1px solid #4a9eff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        /* Navigation layout */
+        .manual-navigation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Left side navigation */
+        .page-navigation {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 26, 26, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #4a9eff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            width: 120px;
+            pointer-events: auto;
+        }
+
+        /* Right side quick tabs */
+        .quick-tabs {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 26, 26, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #4a9eff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            width: 120px;
+            pointer-events: auto;
+        }
+
+        /* Navigation buttons */
+        .nav-button {
+            padding: 12px 20px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: #d6d6dd;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #4a9eff;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            color: #4a9eff;
+            transform: translateX(5px);
+        }
+
+        /* Quick tabs styling */
+        .quick-tab {
+            padding: 12px 20px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: #d6d6dd;
+            border-bottom: 1px solid #4a9eff;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .quick-tab:hover {
+            color: #4a9eff;
+            transform: translateX(-5px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1600px) {
+            .page-navigation {
+                left: 20px;
+            }
+            .quick-tabs {
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .page-navigation, .quick-tabs {
+                display: none;
+            }
+            #dev-manual {
+                max-width: 800px;
+            }
+        }
+
+        .usage-container {
+            background: rgba(44, 44, 44, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .guide-section {
+            margin-bottom: 40px;
+        }
+
+        .guide-section h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .guide-section ol {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .guide-section li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #d6d6dd;
+        }
+
+        .step-number {
+            min-width: 30px;
+            text-align: right;
+            color: #888;
+        }
+
+        .step-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .privacy-container {
+            background: rgba(44, 44, 44, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .policy-section {
+            margin-bottom: 40px;
+        }
+
+        .policy-section h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .policy-content {
+            display: grid;
+            gap: 20px;
+        }
+
+        .policy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: rgba(55, 55, 55, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .policy-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .policy-icon {
+            font-size: 24px;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 119, 238, 0.1);
+            border-radius: 8px;
+        }
+
+        .policy-text {
+            flex: 1;
+        }
+
+        .policy-text h4 {
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+        }
+
+        .policy-text p {
+            color: #d6d6dd;
+            margin: 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .subtitle {
+            color: #7ee787;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .download-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .download-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #2ea043, #347d39);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-button:hover {
+            background: linear-gradient(45deg, #3ab54d, #3b8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 160, 67, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card .icon {
+            font-size: 2em;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #7ee787;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #d6d6dd;
+            line-height: 1.5;
+        }
+
+        .why-choose {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit {
+            color: #7ee787;
+            font-weight: 600;
+        }
+
+        .benefit p {
+            color: #d6d6dd;
+            font-weight: normal;
+            margin-top: 0.5rem;
+            font-size: 0.9em;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .feature-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon {
+            font-size: 2em;
+        }
+
+        .feature-header h2 {
+            margin: 0;
+            color: #7ee787;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #d6d6dd;
+        }
+
+        .feature-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #7ee787;
+        }
+
+        @media (max-width: 768px) {
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .privacy-section {
+            background: rgba(44, 44, 44, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .privacy-section h2 {
+            color: #7ee787;
+            text-align: center;
+            font-size: 1.8em;
+            margin: 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .privacy-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .privacy-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .privacy-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .privacy-icon {
+            font-size: 2.5em;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .privacy-item h3 {
+            color: #7ee787;
+            margin: 0.5rem 0;
+            font-size: 1.2em;
+        }
+
+        .privacy-item p {
+            color: #d6d6dd;
+            margin: 0;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>TikTok Profile Archiver</h1>
+        <div class="nav-buttons">
+            <a href="https://github.com/itsKayWat/TikTok-Profile-Archiver" target="_blank" class="nav-btn">
+                Source Code
+            </a>
+            <a href="https://www.tiktok.com/@ll_kaywat_ll" target="_blank" class="tiktok-btn">
+                @ll_kaywat_ll
+            </a>
+            <a href="https://onpoint.fixmyapple.org/" target="_blank" class="onpoint-btn">
+                OnPoint
+            </a>
+            <a href="https://github.com/itsKayWat" target="_blank" class="github-nav-btn">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
+                GitHub
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#overview" class="active">Overview</a></li>
+                <li><a href="#features">Key Features</a></li>
+                <li><a href="#usage">Usage Guide</a></li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#dev-manual">Dev-Manual</a></li>
+                <li><a href="#support">Support the Dev</a></li>
+            </ul>
+            <div class="sidebar-bottom">
+                <a href="https://onpoint.fixmyapple.org/" target="_blank" class="sidebar-logo">
+                    <span>OnPoint</span>
+                    <span class="subtitle">hope you have a good day</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="container" id="overview">
+                <h1>TikTok Profile Archiver</h1>
+                <p class="subtitle">Archive TikTok profiles and content locally with ease!</p>
+
+                <div class="download-section">
+                    <a href="#" class="download-button">
+                        Download Now →
+                    </a>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">📁</div>
+                        <h3>Profile Archival</h3>
+                        <p>Automatically backs up complete profiles including videos, bio, and stats</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">📊</div>
+                        <h3>Data Organization</h3>
+                        <p>Maintains organized structure for all backed up content and metadata</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">⚡</div>
+                        <h3>Quick Access</h3>
+                        <p>One-click backup with command line interface and upcoming GUI</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🔒</div>
+                        <h3>Safe Downloads</h3>
+                        <p>Secure local storage with proper rate limiting and verification</p>
+                    </div>
+                </div>
+
+                <div class="why-choose">
+                    <h2>Why Choose This Tool?</h2>
+                    
+                    <div class="benefits-grid">
+                        <div class="benefit">
+                            ✓ Easy Installation
+                            <p>Simple setup with automatic dependency management and instant activation</p>
+                        </div>
+
+                        <div class="benefit">
+                            ✓ Quick Access
+                            <p>Convenient command-line interface for fast and efficient backups</p>
+                        </div>
+
+                        <div class="benefit">
+                            ✓ User Friendly
+                            <p>Simple interface with clear options and straightforward functionality</p>
+                        </div>
+
+                        <div class="benefit">
+                            ✓ Developer Focused
+                            <p>Perfect for archiving, testing, and managing TikTok content locally</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" id="features">
+                <h1>Key Features</h1>
+                
+                <div class="features-container">
+                    <section class="feature-section">
+                        <div class="feature-header">
+                            <span class="feature-icon">📥</span>
+                            <h2>Profile Backup</h2>
+                        </div>
+                        <ul class="feature-list">
+                            <li>High-resolution avatar downloads (up to 1080x1080)</li>
+                            <li>Bio text with formatting and emojis preserved</li>
+                            <li>Real-time statistics capture (followers, following, likes)</li>
+                            <li>Profile verification status and badges</li>
+                            <li>Website links and social connections</li>
+                            <li>Custom fields and profile settings</li>
+                        </ul>
+                    </section>
+
+                    <section class="feature-section">
+                        <div class="feature-header">
+                            <span class="feature-icon">🎥</span>
+                            <h2>Video Content</h2>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Highest quality video downloads (up to 4K)</li>
+                            <li>Pinned video priority handling</li>
+                            <li>Complete metadata preservation</li>
+                            <li>Comments and replies with timestamps</li>
+                            <li>Original sound and music details</li>
+                            <li>Hashtags and user mentions</li>
+                            <li>Video thumbnails in multiple resolutions</li>
+                        </ul>
+                    </section>
+
+                    <section class="feature-section">
+                        <div class="feature-header">
+                            <span class="feature-icon">⚡</span>
+                            <h2>Performance</h2>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Smart rate limiting to avoid blocks</li>
+                            <li>Automatic retry on failures</li>
+                            <li>Resume interrupted downloads</li>
+                            <li>Parallel processing support</li>
+                            <li>Bandwidth optimization</li>
+                            <li>Progress tracking and ETA</li>
+                        </ul>
+                    </section>
+
+                    <section class="feature-section">
+                        <div class="feature-header">
+                            <span class="feature-icon">🗂️</span>
+                            <h2>Organization</h2>
+                        </div>
+                        <ul class="feature-list">
+                            <li>Clear folder structure by content type</li>
+                            <li>Timestamped backups for versioning</li>
+                            <li>JSON metadata for each item</li>
+                            <li>HTML snapshots for offline viewing</li>
+                            <li>Automatic file naming and sorting</li>
+                            <li>Duplicate detection and handling</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+
+            <div class="container" id="usage">
+                <h1>How to Use</h1>
+
+                <section class="usage-section">
+                    <h2>Installation</h2>
+                    <ol class="steps-list">
+                        <li>Download the TikTok Backup Tool</li>
+                        <li>Install Python 3.8 or higher if not installed</li>
+                        <li>Run: python tt-backup.py --install</li>
+                        <li>Allow Chrome integration when prompted</li>
+                    </ol>
+                </section>
+
+                <section class="usage-section">
+                    <h2>Using the Tool</h2>
+                    <ol class="steps-list">
+                        <li>Open terminal/command prompt</li>
+                        <li>Run: python tt-backup.py</li>
+                        <li>Enter TikTok usernames when prompted</li>
+                        <li>Select content types to backup</li>
+                    </ol>
+                </section>
+
+                <section class="usage-section">
+                    <h2>Uninstallation</h2>
+                    <ol class="steps-list">
+                        <li>Run: python tt-backup.py --uninstall</li>
+                        <li>Confirm removal of downloaded content</li>
+                    </ol>
+                </section>
+            </div>
+
+            <div class="container" id="dev-manual">
+                <h1>Developer Manual</h1>
+                
+                <!-- Table of Contents Section -->
+                <div class="section" id="toc-page">
+                    <h2>Table of Contents</h2>
+                    <div class="table-of-contents">
+                        <div class="toc-item">
+                            <span>Chapter 1: System Architecture</span>
+                            <span class="page-num">1</span>
+                        </div>
+                        <div class="toc-section">
+                            <div class="toc-subitem">
+                                <span>1.1 Chrome Integration</span>
+                                <span class="page-num">2</span>
+                            </div>
+                            <div class="toc-subitem">
+                                <span>1.2 Download Management</span>
+                                <span class="page-num">3</span>
+                            </div>
+                        </div>
+
+                        <div class="toc-item">
+                            <span>Chapter 2: Implementation Details</span>
+                            <span class="page-num">4</span>
+                        </div>
+                        <div class="toc-section">
+                            <div class="toc-subitem">
+                                <span>2.1 Selenium Integration</span>
+                                <span class="page-num">5</span>
+                            </div>
+                            <div class="toc-subitem">
+                                <span>2.2 Data Processing</span>
+                                <span class="page-num">6</span>
+                            </div>
+                        </div>
+
+                        <!-- Continue with other relevant sections -->
+                    </div>
+                </div>
+
+                <!-- Navigation Panel -->
+                <div class="manual-navigation">
+                    <div class="page-navigation">
+                        <button class="nav-button" onclick="previousPage()" id="prevButton">
+                            ← Previous
+                        </button>
+                        <button class="nav-button" onclick="nextPage()" id="nextButton">
+                            Next →
+                        </button>
+                    </div>
+
+                    <div class="quick-tabs">
+                        <div class="quick-tab" onclick="showPage('toc-page')">Contents</div>
+                        <div class="quick-tab" onclick="showPage('registry')">Registry</div>
+                        <div class="quick-tab" onclick="showPage('implementation')">Implementation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" id="privacy">
+                <h1>Privacy Policy</h1>
+
+                <section class="privacy-section">
+                    <h2>Data Collection</h2>
+                    <div class="privacy-items-grid">
+                        <div class="privacy-item">
+                            <span class="privacy-icon">🔒</span>
+                            <h3>No Personal Information</h3>
+                            <p>We do not collect, store, or transmit any personal data beyond what's needed for backups</p>
+                        </div>
+
+                        <div class="privacy-item">
+                            <span class="privacy-icon">📊</span>
+                            <h3>No Analytics</h3>
+                            <p>No usage tracking or analytics are implemented in the tool</p>
+                        </div>
+
+                        <div class="privacy-item">
+                            <span class="privacy-icon">🌐</span>
+                            <h3>Offline Operation</h3>
+                            <p>The tool only connects to TikTok for content downloads, no other network activity</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>System Access</h2>
+                    <div class="privacy-items-grid">
+                        <div class="privacy-item">
+                            <span class="privacy-icon">💾</span>
+                            <h3>Local Storage Only</h3>
+                            <p>All backed up content is stored locally on your device</p>
+                        </div>
+
+                        <div class="privacy-item">
+                            <span class="privacy-icon">🔄</span>
+                            <h3>Temporary Files</h3>
+                            <p>Temporary files are automatically cleaned up after backup completion</p>
+                        </div>
+
+                        <div class="privacy-item">
+                            <span class="privacy-icon">🔐</span>
+                            <h3>Chrome Integration</h3>
+                            <p>Uses existing Chrome profiles for authentication, no password storage</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>User Control</h2>
+                    <div class="privacy-items-grid">
+                        <div class="privacy-item">
+                            <span class="privacy-icon">👤</span>
+                            <h3>Full Control</h3>
+                            <p>Users can delete backed up content at any time</p>
+                        </div>
+
+                        <div class="privacy-item">
+                            <span class="privacy-icon">📂</span>
+                            <h3>Data Access</h3>
+                            <p>All downloaded content is accessible in clear, organized folders</p>
+                        </div>
+
+                        <div class="privacy-item">
+                            <span class="privacy-icon">🔍</span>
+                            <h3>Transparency</h3>
+                            <p>Open source code available for review and verification</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="container" id="support">
+                <div class="coffee-section">
+                    <h3>Support the Development! ☕️</h3>
+                    <p>Created with ❤️ by KayWat</p>
+                    <p>Your support helps maintain and improve the TikTok Backup Tool for everyone!</p>
+                    <div class="coffee-buttons">
+                        <a href="https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L&custom=1coffee" class="coffee-button">One Coffee ($6)</a>
+                        <a href="https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L&custom=2coffees" class="coffee-button">Two Coffees ($12)</a>
+                        <a href="https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L&custom=3coffees" class="coffee-button">Three Coffees ($24)</a>
+                    </div>
+                    <div class="other-tools">
+                        <h4>Check Out Our Other Tools</h4>
+                        <a href="https://onpoint.fixmyapple.org/" target="_blank" class="tool-button">
+                            OnPoint
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide all containers except the first one
+            const containers = document.querySelectorAll('.container');
+            containers.forEach((container, index) => {
+                if (index !== 0) container.style.display = 'none';
+            });
+
+            // Add click handlers for sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all containers
+                    containers.forEach(container => {
+                        container.style.display = 'none';
+                    });
+                    
+                    // Show the selected container
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).style.display = 'block';
+                });
+            });
+        });
+
+        let currentPageIndex = 0;
+        const pages = [
+            'toc-page',
+            'overview',
+            'technical',
+            'development',
+            'files',
+            'glossary',
+            'index'
+        ];
+
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            
+            if (prevButton && nextButton) {
+                prevButton.disabled = currentPageIndex === 0;
+                nextButton.disabled = currentPageIndex === pages.length - 1;
+            }
+        }
+
+        function previousPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                showPage(pages[currentPageIndex]);
+            }
+        }
+
+        function nextPage() {
+            if (currentPageIndex < pages.length - 1) {
+                currentPageIndex++;
+                showPage(pages[currentPageIndex]);
+            }
+        }
+
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('#dev-manual .section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            const targetSection = document.querySelector(`#dev-manual .section:nth-child(${pages.indexOf(pageId) + 1})`);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+            
+            currentPageIndex = pages.indexOf(pageId);
+            updateNavigationButtons();
+        }
+
+        // Initialize navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNavigationButtons();
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    previousPage();
+                } else if (e.key === 'ArrowRight') {
+                    nextPage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
