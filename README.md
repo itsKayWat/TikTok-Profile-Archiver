@@ -1,3 +1,8 @@
+
+
+TikTok Shutdown Guide & Tools: 
+https://url.kaywat.me/blog/tiktok-shutdown-guide
+
 INBOX ME TO BACKUP YOUR FOLLOWING AND FOLLOWERS LISTS - Its a little more complicated
 
 # TikTok-Profile-Archiver
