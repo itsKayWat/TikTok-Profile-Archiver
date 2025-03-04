@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Profile Archiver - Purchase</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #121212;
+            --secondary-dark: #1f1f1f;
+            --tiktok-red: #FE2C55;
+            --tiktok-red-hover: #e62548;
+            --text-white: #ffffff;
+            --text-gray: #8a8a8a;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--secondary-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            color: var(--tiktok-red);
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '♪';
+            position: absolute;
+            font-size: 15rem;
+            color: rgba(254, 44, 85, 0.05);
+            top: -2rem;
+            left: -2rem;
+            transform: rotate(-45deg);
+        }
+
+        .hero::after {
+            content: '♫';
+            position: absolute;
+            font-size: 12rem;
+            color: rgba(254, 44, 85, 0.05);
+            bottom: -2rem;
+            right: -2rem;
+            transform: rotate(45deg);
+        }
+
+        .hero h1 {
+            color: var(--tiktok-red);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .features h2 {
+            color: var(--text-white);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .feature-list li {
+            background: rgba(254, 44, 85, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-list li i {
+            color: var(--tiktok-red);
+            font-size: 1.5rem;
+        }
+
+        .pricing {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .price {
+            font-size: 4rem;
+            color: var(--tiktok-red);
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .price-subtitle {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: var(--tiktok-red);
+            color: var(--text-white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--tiktok-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="https://sites.google.com/view/tiktok-backup" class="logo">
+            <i class="fas fa-music"></i>
+            TikTok Profile Archiver
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Archive Your TikTok Content</h1>
+            <p>Professional backup solution for TikTok creators and enthusiasts</p>
+        </div>
+
+        <div class="features">
+            <h2>Premium Features</h2>
+            <ul class="feature-list">
+                <li>
+                    <i class="fas fa-download"></i>
+                    <span>Bulk Profile Downloads</span>
+                </li>
+                <li>
+                    <i class="fas fa-folder-tree"></i>
+                    <span>Organized Directory Structure</span>
+                </li>
+                <li>
+                    <i class="fas fa-clock"></i>
+                    <span>Automated Scheduling</span>
+                </li>
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Profile Analytics</span>
+                </li>
+                <li>
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Secure Local Storage</span>
+                </li>
+                <li>
+                    <i class="fas fa-headset"></i>
+                    <span>24/7 Support Access</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pricing">
+            <h2>One-Time Purchase</h2>
+            <div class="price">$49.99</div>
+            <p class="price-subtitle">Lifetime access with free updates</p>
+            <a href="https://shoppy.gg/@aquax.services" class="btn">
+                <i class="fas fa-shopping-cart"></i>
+                Purchase Now
+            </a>
+        </div>
+    </div>
+</body>
+</html> 
