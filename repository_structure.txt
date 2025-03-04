@@ -1,0 +1,39 @@
+ai-code-editor-assistant/
+│
+├── README.html
+├── README.txt
+├── requirements.py
+├── repository_structure.txt
+│
+├── src/
+│   ├── __init__.py
+│   ├── editor/
+│   │   ├── __init__.py
+│   │   ├── code_parser.py
+│   │   ├── edit_applier.py
+│   │   └── file_manager.py
+│   │
+│   ├── ai/
+│   │   ├── __init__.py
+│   │   ├── prompt_handler.py
+│   │   └── response_processor.py
+│   │
+│   └── utils/
+│       ├── __init__.py
+│       ├── config.py
+│       └── logger.py
+│
+├── tests/
+│   ├── __init__.py
+│   ├── test_code_parser.py
+│   ├── test_edit_applier.py
+│   └── test_file_manager.py
+│
+├── docs/
+│   ├── api_reference.md
+│   ├── user_guide.md
+│   └── examples/
+│       ├── basic_usage.md
+│       └── advanced_usage.md
+│
+└── .env.example 
