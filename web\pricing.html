@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Profile Archiver - Pricing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #121212;
+            --secondary-dark: #1f1f1f;
+            --tiktok-red: #FE2C55;
+            --tiktok-red-hover: #e62548;
+            --text-white: #ffffff;
+            --text-gray: #8a8a8a;
+            --accent-green: #25D366;
+            --accent-blue: #1DA1F2;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--secondary-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            color: var(--tiktok-red);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '♪';
+            position: absolute;
+            font-size: 15rem;
+            color: rgba(254, 44, 85, 0.05);
+            top: -2rem;
+            left: -2rem;
+            transform: rotate(-45deg);
+        }
+
+        .hero::after {
+            content: '♫';
+            position: absolute;
+            font-size: 12rem;
+            color: rgba(254, 44, 85, 0.05);
+            bottom: -2rem;
+            right: -2rem;
+            transform: rotate(45deg);
+        }
+
+        .hero h1 {
+            color: var(--tiktok-red);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .pricing-card {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--tiktok-red);
+        }
+
+        .popular-badge {
+            background: var(--tiktok-red);
+            color: var(--text-white);
+            padding: 0.5rem 1.5rem;
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-name {
+            color: var(--text-white);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            color: var(--tiktok-red);
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .plan-billing {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            text-align: left;
+        }
+
+        .feature-list li {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: var(--tiktok-red);
+            position: absolute;
+            left: 0;
+        }
+
+        .btn {
+            background: var(--tiktok-red);
+            color: var(--text-white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            width: 80%;
+        }
+
+        .btn:hover {
+            background: var(--tiktok-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+
+        .faq-section {
+            margin-top: 4rem;
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .faq-section h2 {
+            color: var(--tiktok-red);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-item h3 {
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--text-gray);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="https://sites.google.com/view/tiktok-backup" class="logo">
+            <i class="fas fa-music"></i>
+            TikTok Profile Archiver
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Simple, Transparent Pricing</h1>
+            <p>Choose the perfect plan for your TikTok archiving needs</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="plan-name">Basic</div>
+                <div class="plan-price">$29.99</div>
+                <div class="plan-billing">One-time payment</div>
+                <ul class="feature-list">
+                    <li>Single profile backup</li>
+                    <li>Basic metadata storage</li>
+                    <li>Manual backup scheduling</li>
+                    <li>Standard support</li>
+                    <li>6 months of updates</li>
+                </ul>
+                <a href="https://shoppy.gg/@aquax.services" class="btn">Get Started</a>
+            </div>
+
+            <div class="pricing-card popular">
+                <div class="popular-badge">MOST POPULAR</div>
+                <div class="plan-name">Professional</div>
+                <div class="plan-price">$49.99</div>
+                <div class="plan-billing">One-time payment</div>
+                <ul class="feature-list">
+                    <li>Multiple profile backups</li>
+                    <li>Advanced metadata storage</li>
+                    <li>Automated scheduling</li>
+                    <li>Priority support</li>
+                    <li>Lifetime updates</li>
+                    <li>Bulk download capability</li>
+                    <li>Analytics dashboard</li>
+                </ul>
+                <a href="https://shoppy.gg/@aquax.services" class="btn">Get Started</a>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price">$99.99</div>
+                <div class="plan-billing">One-time payment</div>
+                <ul class="feature-list">
+                    <li>Unlimited profile backups</li>
+                    <li>Complete metadata storage</li>
+                    <li>Advanced automation</li>
+                    <li>24/7 Priority support</li>
+                    <li>Lifetime updates</li>
+                    <li>Custom features</li>
+                    <li>API access</li>
+                    <li>White-label option</li>
+                </ul>
+                <a href="https://shoppy.gg/@aquax.services" class="btn">Get Started</a>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>What payment methods do you accept?</h3>
+                <p>We accept major credit cards, PayPal, and cryptocurrency payments through our secure payment processor.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Do I need to pay for updates?</h3>
+                <p>Updates are included based on your plan. Professional and Enterprise plans include lifetime updates.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I upgrade my plan later?</h3>
+                <p>Yes, you can upgrade to a higher tier plan at any time. You'll only pay the difference in price.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What happens if TikTok changes their platform?</h3>
+                <p>Our team actively monitors TikTok changes and provides timely updates to ensure continued functionality.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
