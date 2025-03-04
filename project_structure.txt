@@ -1,0 +1,9 @@
+TikTok-Backup/
+├── assets/
+│   └── icon.ico
+├── src/
+│   ├── __init__.py
+│   ├── tt_backup.py
+│   └── gui.py
+├── build.py
+└── requirements.txt

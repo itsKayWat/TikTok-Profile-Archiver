@@ -1,0 +1,7 @@
+selenium
+yt-dlp
+requests
+Pillow
+customtkinter
+pyinstaller
+webdriver_manager 
