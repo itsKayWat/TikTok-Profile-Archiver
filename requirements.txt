@@ -4,4 +4,5 @@ requests
 Pillow
 customtkinter
 pyinstaller
-webdriver_manager 
+webdriver_manager
+pillow 
