@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Profile Archiver - Download</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #121212;
+            --secondary-dark: #1f1f1f;
+            --tiktok-red: #FE2C55;
+            --tiktok-red-hover: #e62548;
+            --text-white: #ffffff;
+            --text-gray: #8a8a8a;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--secondary-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            color: var(--tiktok-red);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .download-box {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-box::before {
+            content: '♪';
+            position: absolute;
+            font-size: 12rem;
+            color: rgba(254, 44, 85, 0.05);
+            top: -2rem;
+            left: -2rem;
+            transform: rotate(-45deg);
+        }
+
+        .download-box h1 {
+            color: var(--tiktok-red);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn {
+            background: var(--tiktok-red);
+            color: var(--text-white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .btn:hover {
+            background: var(--tiktok-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+
+        .instructions {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .instructions h2 {
+            color: var(--tiktok-red);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        .instructions li {
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+        }
+
+        .support {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-gray);
+        }
+
+        .support a {
+            color: var(--tiktok-red);
+            text-decoration: none;
+        }
+
+        .support a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="https://sites.google.com/view/tiktok-backup" class="logo">
+            <i class="fas fa-music"></i>
+            TikTok Profile Archiver
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="download-box">
+            <h1>Download Your Software</h1>
+            <p>Thank you for your purchase! Your download is ready.</p>
+            <a href="https://github.com/itskaywat/tiktok-profile-archiver" class="btn">
+                <i class="fas fa-download"></i>
+                Download Now
+            </a>
+        </div>
+
+        <div class="instructions">
+            <h2>Installation Instructions</h2>
+            <ol>
+                <li>Download the software using the button above</li>
+                <li>Extract the ZIP file to your preferred location</li>
+                <li>Run the setup file to install the application</li>
+                <li>Launch the TikTok Profile Archiver</li>
+                <li>Enter your license key when prompted</li>
+            </ol>
+        </div>
+
+        <div class="support">
+            <p>Need help? Contact our support team in our <a href="mailto:discord">Discord</a></p>
+        </div>
+    </div>
+</body>
+</html> 
