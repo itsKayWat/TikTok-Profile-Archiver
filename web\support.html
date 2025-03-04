@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Profile Archiver - Support</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #121212;
+            --secondary-dark: #1f1f1f;
+            --tiktok-red: #FE2C55;
+            --tiktok-red-hover: #e62548;
+            --text-white: #ffffff;
+            --text-gray: #8a8a8a;
+            --discord-purple: #7289DA;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--secondary-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            color: var(--tiktok-red);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '♪';
+            position: absolute;
+            font-size: 15rem;
+            color: rgba(254, 44, 85, 0.05);
+            top: -2rem;
+            left: -2rem;
+            transform: rotate(-45deg);
+        }
+
+        .hero::after {
+            content: '♫';
+            position: absolute;
+            font-size: 12rem;
+            color: rgba(254, 44, 85, 0.05);
+            bottom: -2rem;
+            right: -2rem;
+            transform: rotate(45deg);
+        }
+
+        .hero h1 {
+            color: var(--tiktok-red);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .support-card {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .support-card i {
+            font-size: 3rem;
+            color: var(--tiktok-red);
+            margin-bottom: 1rem;
+        }
+
+        .support-card h2 {
+            color: var(--text-white);
+            margin-bottom: 1rem;
+        }
+
+        .support-card p {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            background: var(--tiktok-red);
+            color: var(--text-white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--tiktok-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+
+        .btn.discord {
+            background: var(--discord-purple);
+        }
+
+        .faq-section {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .faq-section h2 {
+            color: var(--tiktok-red);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item h3 {
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item p {
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .contact-section {
+            background: var(--secondary-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            color: var(--tiktok-red);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-gray);
+        }
+
+        .contact-option i {
+            color: var(--tiktok-red);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="https://sites.google.com/view/tiktok-backup" class="logo">
+            <i class="fas fa-music"></i>
+            TikTok Profile Archiver
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Support Center</h1>
+            <p>Get the help you need to make the most of TikTok Profile Archiver</p>
+        </div>
+
+        <div class="support-grid">
+            <div class="support-card">
+                <i class="fas fa-book"></i>
+                <h2>Documentation</h2>
+                <p>Comprehensive guides and tutorials to help you get started and master all features.</p>
+                <a href="#" class="btn">View Docs</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fab fa-discord"></i>
+                <h2>Discord Community</h2>
+                <p>Join our Discord community for real-time support and discussions with other users.</p>
+                <a href="#" class="btn discord">Join Discord</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-ticket-alt"></i>
+                <h2>Support Tickets</h2>
+                <p>Create a support ticket for direct assistance from our technical team.</p>
+                <a href="#" class="btn">Open Ticket</a>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>How do I install the software?</h3>
+                <p>Download the software from your purchase email, extract the ZIP file, and run the installer. Follow the on-screen instructions to complete the installation.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I activate my license?</h3>
+                <p>Enter your license key when prompted during the first launch of the application. You can find your license key in your purchase confirmation email.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I transfer my license to another computer?</h3>
+                <p>Yes, you can deactivate your license on one computer and activate it on another. Contact support if you need assistance with this process.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What should I do if the software isn't working?</h3>
+                <p>First, ensure you're running the latest version. If the issue persists, check our troubleshooting guide or contact support through Discord or the ticket system.</p>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2>Contact Information</h2>
+            <div class="contact-options">
+                <div class="contact-option">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord Community</span>
+                </div>
+                <div class="contact-option">
+                    <i class="fas fa-envelope"></i>
+                    <span>support@example.com</span>
+                </div>
+                <div class="contact-option">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Support</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
