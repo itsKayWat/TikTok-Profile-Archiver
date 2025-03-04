@@ -1,0 +1,3 @@
+('C:\\Users\\xlkay\\Downloads\\TikTok-Profile-Archiver\\build\\TikTok Profile '
+ 'Archiver\\PYZ-00.pyz',
+ [])
