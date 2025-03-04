@@ -8,9 +8,26 @@ from PIL import Image, ImageTk
 
 # Import directly from the same directory
 try:
+    import sys
+    import os
+    
+    # Add the project root directory to Python path
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    if project_root not in sys.path:
+        sys.path.append(project_root)
+        
+    # Try importing from current directory first
     from tt_backup import create_backup_structure, setup_chrome_profile, scrape_profile_info
 except ImportError:
-    from src.tt_backup import create_backup_structure, setup_chrome_profile, scrape_profile_info
+    # If that fails, try importing from src directory
+    try:
+        from src.tt_backup import create_backup_structure, setup_chrome_profile, scrape_profile_info
+    except ImportError:
+        print("Error: Could not find tt_backup.py in either the current directory or src/ directory")
+        print("Please ensure tt_backup.py exists in one of these locations:")
+        print(f"- {os.path.join(project_root, 'tt_backup.py')}")
+        print(f"- {os.path.join(project_root, 'src', 'tt_backup.py')}")
+        sys.exit(1)
 
 # TikTok-themed colors
 COLORS = {
