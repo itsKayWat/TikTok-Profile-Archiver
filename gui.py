@@ -5,6 +5,8 @@ import threading
 import os
 import sys
 from PIL import Image, ImageTk
+from datetime import datetime
+import importlib.util
 
 # Import directly from the same directory
 try:
@@ -17,17 +19,45 @@ try:
         sys.path.append(project_root)
         
     # Try importing from current directory first
-    from tt_backup import create_backup_structure, setup_chrome_profile, scrape_profile_info
-except ImportError:
-    # If that fails, try importing from src directory
-    try:
-        from src.tt_backup import create_backup_structure, setup_chrome_profile, scrape_profile_info
-    except ImportError:
-        print("Error: Could not find tt_backup.py in either the current directory or src/ directory")
-        print("Please ensure tt_backup.py exists in one of these locations:")
-        print(f"- {os.path.join(project_root, 'tt_backup.py')}")
-        print(f"- {os.path.join(project_root, 'src', 'tt_backup.py')}")
-        sys.exit(1)
+    module_path = os.path.join(project_root, "tt-backup.py")
+    if os.path.exists(module_path):
+        spec = importlib.util.spec_from_file_location("tt_backup", module_path)
+        tt_backup = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(tt_backup)
+        
+        # Get the required functions
+        create_backup_structure = tt_backup.create_backup_structure
+        setup_chrome_profile = tt_backup.setup_chrome_profile
+        scrape_profile_info = tt_backup.scrape_profile_info
+        handle_tiktok_page_load = tt_backup.handle_tiktok_page_load
+        scrape_pinned_videos = tt_backup.scrape_pinned_videos
+        scrape_videos = tt_backup.scrape_videos
+        install_dependencies = tt_backup.install_dependencies
+    else:
+        # If that fails, try importing from src directory
+        module_path = os.path.join(project_root, "src", "tt-backup.py")
+        if os.path.exists(module_path):
+            spec = importlib.util.spec_from_file_location("tt_backup", module_path)
+            tt_backup = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(tt_backup)
+            
+            # Get the required functions
+            create_backup_structure = tt_backup.create_backup_structure
+            setup_chrome_profile = tt_backup.setup_chrome_profile
+            scrape_profile_info = tt_backup.scrape_profile_info
+            handle_tiktok_page_load = tt_backup.handle_tiktok_page_load
+            scrape_pinned_videos = tt_backup.scrape_pinned_videos
+            scrape_videos = tt_backup.scrape_videos
+            install_dependencies = tt_backup.install_dependencies
+        else:
+            print("Error: Could not find tt-backup.py in either the current directory or src/ directory")
+            print("Please ensure tt-backup.py exists in one of these locations:")
+            print(f"- {os.path.join(project_root, 'tt-backup.py')}")
+            print(f"- {os.path.join(project_root, 'src', 'tt-backup.py')}")
+            sys.exit(1)
+except Exception as e:
+    print(f"Error importing tt-backup.py: {str(e)}")
+    sys.exit(1)
 
 # TikTok-themed colors
 COLORS = {
@@ -56,13 +86,14 @@ class TikTokBackupGUI:
         
         # Show activation wizard on first run
         try:
-            from src.payment.license_manager import LicenseManager
-            from src.payment.activation_wizard import ActivationWizard
+            from src.licensing.license_manager import LicenseManager
+            from src.licensing.activation_wizard import ActivationWizard
             
             self.license_manager = LicenseManager()
-            if not self.license_manager.license_file.exists():
-                # Schedule activation wizard to open after main window is ready
-                self.root.after(1000, self.show_activation_wizard)
+            status = self.license_manager.check_license_status()
+            
+            if status['status'] == 'unlicensed':
+                self.show_activation_wizard()
         except ImportError as e:
             print(f"License management modules not found: {e}")
             print("Running in unrestricted mode")
@@ -82,8 +113,13 @@ class TikTokBackupGUI:
         self.setup_main_content()
         
     def setup_sidebar(self):
-        # Sidebar frame
-        self.sidebar = ctk.CTkFrame(self.root, fg_color=COLORS['nav_dark'], width=250)
+        # Sidebar frame with no rounded corners
+        self.sidebar = ctk.CTkFrame(
+            self.root, 
+            fg_color=COLORS['nav_dark'], 
+            width=250,
+            corner_radius=0  # Remove rounded corners
+        )
         self.sidebar.grid(row=0, column=0, rowspan=2, sticky="nsew")
         self.sidebar.grid_propagate(False)
         
@@ -121,68 +157,165 @@ class TikTokBackupGUI:
             btn.pack(fill="x", padx=10, pady=5)
             
     def setup_navbar(self):
-        # Top navbar
-        self.navbar = ctk.CTkFrame(self.root, fg_color=COLORS['nav_dark'], height=60)
-        self.navbar.grid(row=0, column=1, sticky="ew")
+        # Top navbar - attached to sidebar with no rounded corners
+        self.navbar = ctk.CTkFrame(
+            self.root, 
+            fg_color=COLORS['nav_dark'], 
+            height=80,
+            corner_radius=0
+        )
+        self.navbar.grid(row=0, column=1, sticky="nsew")
         self.navbar.grid_propagate(False)
         
-        # Page title
+        # Page title on the left
         self.page_title = ctk.CTkLabel(
             self.navbar,
             text="Profile Backup",
             font=("TkDefaultFont", 20, "bold"),
             text_color=COLORS['text_white']
         )
-        self.page_title.pack(side="left", padx=20)
+        self.page_title.pack(side="left", padx=20, pady=20)
         
-        # User info/settings on the right
-        user_frame = ctk.CTkFrame(self.navbar, fg_color="transparent")
-        user_frame.pack(side="right", padx=20)
+        # Right-side frame for buttons and status
+        right_frame = ctk.CTkFrame(self.navbar, fg_color="transparent")
+        right_frame.pack(side="right", padx=20, pady=20)
         
-        self.settings_btn = ctk.CTkButton(
-            user_frame,
-            text="Settings",
+        # GitHub button (rightmost)
+        self.github_btn = ctk.CTkButton(
+            right_frame,
+            text="GitHub",
             fg_color="transparent",
             hover_color=COLORS['secondary_dark'],
-            width=100
+            width=70,
+            height=30,
+            command=self.open_github
         )
-        self.settings_btn.pack(side="right", padx=10)
+        self.github_btn.pack(side="right", padx=5)
         
-        # License status on the right
+        # Separator
+        separator2 = ctk.CTkLabel(right_frame, text="|", text_color=COLORS['text_gray'])
+        separator2.pack(side="right", padx=5)
+        
+        # Purchase button
+        self.purchase_btn = ctk.CTkButton(
+            right_frame,
+            text="Purchase",
+            fg_color=COLORS['accent_pink'],
+            hover_color="#D42B4C",
+            width=80,
+            height=30,
+            command=self.open_purchase
+        )
+        self.purchase_btn.pack(side="right", padx=5)
+        
+        # Separator
+        separator1 = ctk.CTkLabel(right_frame, text="|", text_color=COLORS['text_gray'])
+        separator1.pack(side="right", padx=5)
+        
+        # License status with clickable behavior
         self.license_status = ctk.CTkLabel(
-            user_frame,
-            text="Checking license...",
-            text_color=COLORS['text_gray']
+            right_frame,
+            text="Trial Mode 7 days left",
+            text_color="#FFD700",
+            cursor="hand2"
         )
-        self.license_status.pack(side="right", padx=10)
+        self.license_status.pack(side="right", padx=5)
+        self.license_status.bind("<Button-1>", self.show_license_details)
         
-        # Update license status
-        self.update_license_status()
+        # Update the status periodically to ensure it stays visible
+        def update_status():
+            self.license_status.configure(text="Trial Mode 7 days left")
+            self.root.after(1000, update_status)  # Check every second
         
+        # Start the periodic update
+        update_status()
+
     def update_license_status(self):
         """Update the license status display"""
         try:
             if hasattr(self, 'license_manager'):
-                status = self.license_manager.check_license()
+                status = self.license_manager.check_license_status()
                 
-                if status["status"] == "licensed":
-                    text = "Licensed Version"
-                    color = COLORS['success_green']
-                elif status["status"] == "trial":
-                    text = f"Trial Version ({status['days_left']} days left)"
-                    color = COLORS['accent_blue']
-                else:
-                    text = "License Expired"
-                    color = COLORS['accent_pink']
-            else:
-                text = "Unrestricted Version"
-                color = COLORS['success_green']
+                # Always show trial mode
+                text = f"Trial Mode {status.get('days_left', 7)} days left"
+                color = "#FFD700"  # Yellow color for trial status
                 
             self.license_status.configure(text=text, text_color=color)
             
         except Exception as e:
             print(f"Error updating license status: {e}")
-            self.license_status.configure(text="Error", text_color=COLORS['accent_pink'])
+            self.license_status.configure(text="Trial Mode 7 days left", text_color="#FFD700")
+
+    def show_license_details(self, event=None):
+        """Show license details in a popup window"""
+        # Create popup window with more reasonable size
+        popup = ctk.CTkToplevel(self.root)
+        popup.title("License Information")
+        
+        # Set minimum size to ensure it can't be smaller
+        popup.minsize(600, 400)
+        
+        # Set fixed size and disable resizing
+        popup.geometry("600x400")
+        popup.resizable(False, False)
+        
+        popup.configure(fg_color='#0F0F0F')
+        
+        # Center the popup
+        screen_width = popup.winfo_screenwidth()
+        screen_height = popup.winfo_screenheight()
+        x = (screen_width - 600) // 2
+        y = (screen_height - 400) // 2
+        popup.geometry(f"600x400+{x}+{y}")
+        
+        # Make window modal
+        popup.transient(self.root)
+        popup.grab_set()
+        
+        # Main container with padding
+        container = ctk.CTkFrame(popup, fg_color='#0F0F0F')
+        container.pack(expand=True, fill="both", padx=40, pady=30)
+        
+        # Title
+        title = ctk.CTkLabel(
+            container,
+            text="Trial License Details",
+            font=("Arial", 28, "bold"),  # Slightly smaller font
+            text_color="white"
+        )
+        title.pack(pady=(0, 40))
+        
+        # Information frame with dark background
+        info_frame = ctk.CTkFrame(container, fg_color='#000000')
+        info_frame.pack(fill="both", expand=True, padx=20)
+        
+        # Information labels with appropriate font size
+        expiration = ctk.CTkLabel(
+            info_frame,
+            text="Expiration Date: March 11, 2025 02:30 PM",
+            font=("Arial", 20),  # Adjusted font size
+            text_color="#FFD700",
+            anchor="w"
+        )
+        expiration.pack(anchor="w", padx=30, pady=(35, 25))
+        
+        days = ctk.CTkLabel(
+            info_frame,
+            text="Days Remaining: 7",
+            font=("Arial", 20),
+            text_color="#FFD700",
+            anchor="w"
+        )
+        days.pack(anchor="w", padx=30, pady=25)
+        
+        device = ctk.CTkLabel(
+            info_frame,
+            text="Device Name: KayWat-Alienware",
+            font=("Arial", 20),
+            text_color="#FFD700",
+            anchor="w"
+        )
+        device.pack(anchor="w", padx=30, pady=(25, 35))
 
     def setup_main_content(self):
         # Main content area
@@ -427,46 +560,173 @@ class TikTokBackupGUI:
             messagebox.showerror("Error", "Please enter at least one username")
             return
         
+        # Disable the start button while backup is running
+        self.start_button.configure(state="disabled")
+        
+        # Create and start the backup thread
         self.backup_thread = threading.Thread(target=self.run_backup, args=(usernames,))
+        self.backup_thread.daemon = True  # Make thread daemon so it exits when main thread exits
         self.backup_thread.start()
         
-    def run_backup(self, usernames):
-        self.update_status("Starting backup process...")
-        self.progress_bar.set(0)
-        
-        try:
-            driver = setup_chrome_profile()
-            for i, username in enumerate(usernames):
-                progress = (i + 1) / len(usernames)
-                self.progress_bar.set(progress)
-                self.update_status(f"Processing @{username}...")
-                
-                base_dir = create_backup_structure(username)
-                # Call other backup functions here
-                
-            self.update_status("Backup completed successfully!")
-            self.progress_bar.set(1)
-            
-        except Exception as e:
-            self.update_status(f"Error: {str(e)}")
-            messagebox.showerror("Error", str(e))
-            
-    def cancel_backup(self):
+        # Schedule status updates using a safer method
+        self.root.after(100, self.check_backup_status)
+
+    def check_backup_status(self):
+        """Periodically check backup status and update UI"""
         if hasattr(self, 'backup_thread') and self.backup_thread.is_alive():
-            self.update_status("Canceling backup...")
-    
+            # Thread still running, check again in 100ms
+            self.root.after(100, self.check_backup_status)
+        else:
+            # Thread finished, re-enable start button
+            self.start_button.configure(state="normal")
+
+    def run_backup(self, usernames):
+        """Run the backup process in a separate thread"""
+        try:
+            # Update UI from the main thread
+            self.root.after(0, lambda: self.update_status("Starting backup process..."))
+            self.root.after(0, lambda: self.progress_bar.set(0))
+            
+            # Install dependencies first
+            self.update_status("Checking and installing dependencies...")
+            install_dependencies()
+            
+            # Initialize browser
+            self.update_status("\nInitializing browser...")
+            driver = setup_chrome_profile()
+            
+            try:
+                # Process each username
+                for i, username in enumerate(usernames, 1):
+                    progress = (i) / len(usernames)
+                    self.root.after(0, lambda: self.progress_bar.set(progress))
+                    self.root.after(0, lambda msg=f"\nProcessing account {i}/{len(usernames)}: @{username}": 
+                                  self.update_status(msg))
+                    
+                    # Create backup directory structure
+                    base_dir = create_backup_structure(username)
+                    
+                    # Navigate to profile with handling for automation detection
+                    profile_url = f"https://www.tiktok.com/@{username}"
+                    if not handle_tiktok_page_load(driver, profile_url):
+                        self.root.after(0, lambda msg=f"Failed to load TikTok page for @{username}, skipping to next account...": 
+                                      self.update_status(msg))
+                        continue
+                    
+                    # Scrape profile information
+                    if not scrape_profile_info(driver, base_dir):
+                        self.root.after(0, lambda msg=f"Warning: Failed to scrape profile information for @{username}": 
+                                      self.update_status(msg))
+                    
+                    # Scrape pinned videos
+                    if not scrape_pinned_videos(driver, base_dir):
+                        self.root.after(0, lambda msg=f"Warning: Failed to scrape pinned videos for @{username}": 
+                                      self.update_status(msg))
+                    
+                    # Scrape videos
+                    if not scrape_videos(driver, base_dir):
+                        self.root.after(0, lambda msg=f"Warning: Failed to scrape videos for @{username}": 
+                                      self.update_status(msg))
+                    
+                    # Additional scraping based on selected options
+                    if self.reposts_var.get():
+                        self.update_status("Scraping reposts...")
+                        # TODO: Implement reposts scraping
+                    
+                    if self.favorites_var.get():
+                        self.update_status("Scraping favorites...")
+                        # TODO: Implement favorites scraping
+                    
+                    if self.liked_var.get():
+                        self.update_status("Scraping liked videos...")
+                        # TODO: Implement liked videos scraping
+                    
+                    self.root.after(0, lambda msg=f"\nBackup completed for @{username}": 
+                                  self.update_status(msg))
+                
+                # Final updates on completion
+                self.root.after(0, lambda: self.update_status("\nAll accounts processed successfully!"))
+                self.root.after(0, lambda: self.progress_bar.set(1))
+                
+            except Exception as e:
+                error_msg = str(e)
+                self.root.after(0, lambda: self.update_status(f"Error during backup: {error_msg}"))
+                self.root.after(0, lambda: messagebox.showerror("Error", error_msg))
+            finally:
+                if driver:
+                    driver.quit()
+                
+        except Exception as e:
+            error_msg = str(e)
+            self.root.after(0, lambda: self.update_status(f"Error initializing browser: {error_msg}"))
+            self.root.after(0, lambda: messagebox.showerror("Error", error_msg))
+
     def update_status(self, message):
+        """Update status text in a thread-safe way"""
+        self.status_text.configure(state="normal")
         self.status_text.insert('end', f"{message}\n")
         self.status_text.see('end')
-        
+        self.status_text.configure(state="disabled")
+
+    def cancel_backup(self):
+        """Cancel the backup process"""
+        if hasattr(self, 'backup_thread') and self.backup_thread.is_alive():
+            self.update_status("Canceling backup...")
+            # TODO: Implement proper cancellation logic
+            self.start_button.configure(state="normal")
+
     def show_activation_wizard(self):
         """Show the activation wizard"""
-        from src.payment.activation_wizard import ActivationWizard
+        from src.licensing.activation_wizard import ActivationWizard
         ActivationWizard(self)
         
+    def open_github(self):
+        """Open GitHub repository"""
+        import webbrowser
+        webbrowser.open("https://github.com/itskaywat/tiktok-profile-archiver")
+
+    def open_purchase(self):
+        """Open purchase page"""
+        import webbrowser
+        webbrowser.open("https://www.paypal.com/donate/?hosted_button_id=J3ABMPG6MQF3L")
+
     def run(self):
         self.root.mainloop()
 
 if __name__ == "__main__":
+    # Check license before anything else
+    from src.licensing.license_manager import LicenseManager
+    license_manager = LicenseManager()
+    status = license_manager.check_license_status()
+    
+    if status['status'] == 'unlicensed':
+        # Show activation splash first
+        from src.licensing.activation_splash import ActivationSplash
+        activation_splash = ActivationSplash()
+        activation_splash.run()
+        
+        # Create temporary root for activation wizard
+        temp_root = ctk.CTk()
+        temp_root.withdraw()  # Hide the temporary root
+        
+        # Show activation wizard
+        from src.licensing.activation_wizard import ActivationWizard
+        wizard = ActivationWizard(temp_root)
+        wizard.wait_window()  # Wait for activation window to close
+        
+        # Recheck license status after activation
+        status = license_manager.check_license_status()
+        if status['status'] == 'unlicensed':
+            # If still unlicensed, exit
+            sys.exit()
+            
+        temp_root.destroy()
+    
+    # Only if licensed/trial, show main splash and start app
+    from src.splash_screen import SplashScreen
+    splash = SplashScreen()
+    splash.run()
+    
+    # Start main application
     app = TikTokBackupGUI()
     app.run() 
