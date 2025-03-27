@@ -7,6 +7,9 @@ https://chromewebstore.google.com/detail/tiktok-downloader/medgffgfcjmjnindjonmj
 TikTok Shutdown Guide & Tools: 
 https://url.kaywat.me/blog/tiktok-shutdown-guide
 
+## REPORT PROJECT BUGS AND REQUESTS HERE
+https://github.com/users/itsKayWat/projects/2
+
 INBOX ME TO BACKUP YOUR FOLLOWING AND FOLLOWERS LISTS - Its a little more complicated
 
 # TikTok Profile Backup Tool
