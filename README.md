@@ -1,6 +1,9 @@
 [ FREE WHILE IN BETA STAGES ]
 https://sites.google.com/view/tiktok-backup/download/purchase
 
+TikTok Profile Achriver Chrome Extension:
+https://chromewebstore.google.com/detail/tiktok-downloader/medgffgfcjmjnindjonmjghlmmpolnfh
+
 TikTok Shutdown Guide & Tools: 
 https://url.kaywat.me/blog/tiktok-shutdown-guide
 
