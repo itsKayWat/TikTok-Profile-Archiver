@@ -13,7 +13,6 @@
 
 - 🌐 **Live Web Application**: [tt-archiver.kaywat.codes](https://tt-archiver.kaywat.codes/)
 - 🧩 **Official Chrome Extension**: [Download on Chrome Web Store](https://chromewebstore.google.com/detail/tiktok-downloader/medgffgfcjmjnindjonmjghlmmpolnfh?authuser=0&hl=en)
-- 💾 **Desktop Edition & Pro Features**: [sites.google.com/view/tiktok-backup/download/purchase](https://sites.google.com/view/tiktok-backup/download/purchase)
 - 📧 **Developer Support & Enquiries**: [kaywat.codes](https://kaywat.codes)
 
 ---
